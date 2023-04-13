@@ -3,6 +3,7 @@ package pl.us.gr3.app.controller;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import pl.us.gr3.app.model.Book;
+import pl.us.gr3.app.service.BookService;
 
 import java.net.URI;
 import java.util.ArrayList;
@@ -13,6 +14,8 @@ import java.util.Random;
 @RestController
 @RequestMapping("/api/v1/books")
 public class AdminBookController {
+
+    private  final BookService bookService;
     private static final Random random = new Random();
     public List<Book> books = new ArrayList<>(List.of(
             Book
@@ -30,9 +33,14 @@ public class AdminBookController {
                     .editionYear(2021)
                     .build()
     ));
+
+    public AdminBookController(BookService bookService) {
+        this.bookService = bookService;
+    }
+
     @GetMapping("")
     public List<Book> allBooks() {
-        return books;
+        return bookService.findAllBooks();
     }
 
     @GetMapping("/bad/{id}")                                // uzupełnij
