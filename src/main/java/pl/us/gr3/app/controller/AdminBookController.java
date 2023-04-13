@@ -85,6 +85,22 @@ public class AdminBookController {
             return ResponseEntity.notFound().build();
         }
     }
+    @PutMapping("/{id}")
+    public ResponseEntity<Book> updateBook(@PathVariable long id, @RequestBody Book book){
+        final Optional<Book> first = books.stream()
+                .filter(b -> b.getId() == id)
+                .findFirst();
+        if (book.getTitle().isEmpty()){
+            return ResponseEntity.badRequest().build();
+        }
+        if (first.isPresent()){
+            final int index = books.indexOf(first.get());
+            books.set(index, book);
+            return ResponseEntity.ok(book);
+        } else {
+            return ResponseEntity.notFound().build();
+        }
+    }
 
 
 }
