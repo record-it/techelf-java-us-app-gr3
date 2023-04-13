@@ -36,11 +36,15 @@ public class HomeController {
             ){
         return "Hello " + name +", your birth date is " + birthDate +", your age is " + (LocalDate.now().getYear() - birthDate.getYear());
     }
-
     // Dodaj metodę kalkulatora z parametrami:
     // a - liczba
     // b - liczba
     // op - łańcuch z operatorem np. add, mul, sub, div
     // przykład żądania: ?a=4&b=5&op=add
     // odpowiedź: 9
+
+    @GetMapping("/books/{bookId}/authors")
+    public String getBook(@PathVariable(name = "bookId") long bookId){
+        return "Book with id " + bookId;
+    }
 }
