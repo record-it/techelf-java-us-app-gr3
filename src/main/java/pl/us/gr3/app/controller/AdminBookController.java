@@ -63,7 +63,6 @@ public class AdminBookController {
                 .findFirst();
         return ResponseEntity.of(first);
     }
-
     @PostMapping("/")
     public ResponseEntity<Book> addBook(@RequestBody Book newBook){
         newBook.setId(3 + random.nextInt(100000));
@@ -72,4 +71,20 @@ public class AdminBookController {
                 .created(URI.create("http://localhost:9000/api/v1/books/" + newBook.getId()))
                 .body(newBook);
     }
+
+    @DeleteMapping("/{id}")
+    public ResponseEntity<Object> deleteBook(@PathVariable long id){
+        final Optional<Book> first = books
+                .stream()
+                .filter(b -> b.getId() == id)
+                .findFirst();
+        if (first.isPresent()){
+            books.remove(first.get());
+            return ResponseEntity.noContent().build();
+        } else {
+            return ResponseEntity.notFound().build();
+        }
+    }
+
+
 }
