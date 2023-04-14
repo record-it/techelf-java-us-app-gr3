@@ -9,7 +9,7 @@ public class CommentMapper {
                 .builder()
                 .bookId(bookId)
                 .content(dto.getContent())
-                .userId(userId)
+                .authorId(userId)
                 .rate(dto.getRate())
                 .build();
     }

@@ -28,14 +28,14 @@ public class Comment {
     @EqualsAndHashCode.Include
     private long id;
 
-    @ManyToOne
+    @ManyToOne(optional = false)
     @JoinColumn(name = "bookId")
     private Book book;
 
     @Column(name = "bookId", updatable = false, insertable = false)
     private long bookId;
 
-    @ManyToOne
+    @ManyToOne(optional = false)
     @JoinColumn(name = "authorId")
     private User author;
 
