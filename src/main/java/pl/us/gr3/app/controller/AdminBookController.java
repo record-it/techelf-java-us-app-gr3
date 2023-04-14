@@ -1,7 +1,10 @@
 package pl.us.gr3.app.controller;
 
+import jakarta.validation.Valid;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import pl.us.gr3.app.dto.RequestBookDto;
+import pl.us.gr3.app.mapper.BookMapper;
 import pl.us.gr3.app.model.Book;
 import pl.us.gr3.app.service.BookService;
 
@@ -72,7 +75,10 @@ public class AdminBookController {
         return ResponseEntity.of(first);
     }
     @PostMapping("/")
-    public ResponseEntity<Book> addBook(@RequestBody Book newBook){
+    public ResponseEntity<Book> addBook(@Valid @RequestBody RequestBookDto dto){
+        // wykonaj mapowanie dto na Book
+        // dodaj walidację dto
+        var newBook = BookMapper.toBook(dto);
         newBook.setId(3 + random.nextInt(100000));
         books.add(newBook);
         return ResponseEntity
@@ -94,15 +100,14 @@ public class AdminBookController {
         }
     }
     @PutMapping("/{id}")
-    public ResponseEntity<Book> updateBook(@PathVariable long id, @RequestBody Book book){
+    public ResponseEntity<Book> updateBook(@PathVariable long id, @Valid @RequestBody RequestBookDto dto){
         final Optional<Book> first = books.stream()
                 .filter(b -> b.getId() == id)
                 .findFirst();
-        if (book.getTitle().isEmpty()){
-            return ResponseEntity.badRequest().build();
-        }
+
         if (first.isPresent()){
             final int index = books.indexOf(first.get());
+            final Book book = BookMapper.toBook(dto);
             books.set(index, book);
             return ResponseEntity.ok(book);
         } else {
