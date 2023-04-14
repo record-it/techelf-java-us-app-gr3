@@ -3,6 +3,7 @@ package pl.us.gr3.app;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.context.annotation.ComponentScan;
 
 @SpringBootApplication
 public class Gr3AppApplication implements CommandLineRunner {

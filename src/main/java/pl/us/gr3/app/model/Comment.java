@@ -30,4 +30,6 @@ public class Comment {
     private String content;
 
     private LocalDateTime created;
+
+    private int rate;
 }
