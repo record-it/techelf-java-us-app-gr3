@@ -26,21 +26,34 @@ public class BookServiceJpa implements BookService{
 
     @Override
     public List<Comment> findAllCommentsForBook(long bookId) {
-        return commentRepository.f;
+        return commentRepository.findCommentsByBookId(bookId);
     }
 
     @Override
     public Optional<Comment> addComment(Comment newComment) {
-        return Optional.empty();
+        try {
+            return Optional.of(commentRepository.save(newComment));
+
+        } catch (Exception e) {
+            return Optional.empty();
+        }
     }
 
     @Override
     public boolean deleteComment(long commentId) {
-        return false;
+        try {
+            commentRepository.deleteById(commentId);
+            return true;
+        } catch (Exception e){
+            return false;
+        }
     }
-
     @Override
     public Optional<Comment> updateComment(Comment comment) {
-        return Optional.empty();
+        try {
+            return Optional.of(commentRepository.save(comment));
+        } catch (Exception e) {
+            return Optional.empty();
+        }
     }
 }
