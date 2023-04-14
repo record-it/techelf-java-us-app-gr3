@@ -63,7 +63,7 @@ public class BookController {
         try {
             final JsonNode updatedJson = patch.apply(json);
             final Comment updatedComment = mapper.convertValue(updatedJson, Comment.class);
-            bookService.updateComment(updatedComment.getId(), )
+            return ResponseEntity.of(bookService.updateComment(updatedComment));
         } catch (JsonPatchException e) {
             return ResponseEntity.badRequest().build();
         }
