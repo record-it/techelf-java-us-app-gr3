@@ -62,7 +62,8 @@ public class BookServiceInMemory implements BookService{
     }
 
     @Override
-    public Optional<Comment> updateComment(long commentId) {
-        return Optional.empty();
+    public Optional<Comment> updateComment(Comment comment) {
+        comments.put(comment.getId(), comment);
+        return Optional.of(comment);
     }
 }

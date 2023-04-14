@@ -9,5 +9,5 @@ public interface BookService {
     public List<Comment> findAllCommentsForBook(long bookId);
     public Optional<Comment> addComment(Comment newComment);
     public boolean deleteComment(long commentId);
-    public Optional<Comment> updateComment(long commentId);
+    public Optional<Comment> updateComment(Comment comment);
 }

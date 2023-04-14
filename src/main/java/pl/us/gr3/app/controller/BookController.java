@@ -1,5 +1,9 @@
 package pl.us.gr3.app.controller;
 
+import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.github.fge.jsonpatch.JsonPatch;
+import com.github.fge.jsonpatch.JsonPatchException;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import pl.us.gr3.app.dto.RequestCommentDto;
@@ -38,5 +42,31 @@ public class BookController {
         } else {
             return ResponseEntity.badRequest().build();
         }
+    }
+
+    @PatchMapping("/{bookId}/comments/{commentId}")
+    public ResponseEntity<Comment> patchComment(
+            @PathVariable long bookId,
+            @PathVariable long commentId,
+            @RequestBody JsonPatch patch
+    ){
+        final Optional<Comment> first = bookService.findAllCommentsForBook(bookId)
+                .stream()
+                .filter(c -> c.getId() == commentId)
+                .findFirst();
+        if (first.isEmpty()){
+            return ResponseEntity.notFound().build();
+        }
+        var comment = first.get();
+        var mapper = new ObjectMapper();
+        var json = mapper.convertValue(comment, JsonNode.class);
+        try {
+            final JsonNode updatedJson = patch.apply(json);
+            final Comment updatedComment = mapper.convertValue(updatedJson, Comment.class);
+            bookService.updateComment(updatedComment.getId(), )
+        } catch (JsonPatchException e) {
+            return ResponseEntity.badRequest().build();
+        }
+
     }
 }
