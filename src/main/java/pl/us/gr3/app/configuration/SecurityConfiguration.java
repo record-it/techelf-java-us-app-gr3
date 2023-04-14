@@ -6,11 +6,18 @@ import org.springframework.http.HttpMethod;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.http.SessionCreationPolicy;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 
 @Configuration
 @EnableWebSecurity
 public class SecurityConfiguration {
+
+    @Bean
+    public PasswordEncoder getPasswordEncoder(){
+        return new BCryptPasswordEncoder();
+    }
 
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
@@ -24,7 +31,7 @@ public class SecurityConfiguration {
                 .and()
                 .authorizeHttpRequests(request -> {
                     request
-                            .requestMatchers("/api/v1/books/**").authenticated()
+                            .requestMatchers("/api/v1/books/**").hasRole("ADMIN")
                             .requestMatchers(HttpMethod.GET,"/api/v1/public/**").permitAll()
                             .requestMatchers("/api/v1/public/**").authenticated()
                             .anyRequest().permitAll();

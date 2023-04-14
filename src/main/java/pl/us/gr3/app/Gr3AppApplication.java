@@ -3,6 +3,7 @@ package pl.us.gr3.app;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import pl.us.gr3.app.model.Book;
 import pl.us.gr3.app.model.User;
 import pl.us.gr3.app.repository.BookRepository;
@@ -14,10 +15,12 @@ import java.util.List;
 public class Gr3AppApplication implements CommandLineRunner {
     private final BookRepository bookRepository;
     private final UserRepository userRepository;
+    private final PasswordEncoder encoder;
 
-    public Gr3AppApplication(BookRepository bookRepository, UserRepository userRepository) {
+    public Gr3AppApplication(BookRepository bookRepository, UserRepository userRepository, PasswordEncoder encoder) {
         this.bookRepository = bookRepository;
         this.userRepository = userRepository;
+        this.encoder = encoder;
     }
 
     public static void main(String[] args) {
@@ -50,14 +53,16 @@ public class Gr3AppApplication implements CommandLineRunner {
                 User
                         .builder()
                         .id(1)
+                        .roles("ROLE_USER;ROLE_ADMIN")
                         .email("karol@us.edu.pl")
-                        .password("12345")
+                        .password(encoder.encode("12345"))
                         .build(),
                 User
                         .builder()
                         .id(2)
+                        .roles("ROLE_USER")
                         .email("ewa@us.edu.pl")
-                        .password("abcde")
+                        .password(encoder.encode("abcde"))
                         .build()
         ));
     }
