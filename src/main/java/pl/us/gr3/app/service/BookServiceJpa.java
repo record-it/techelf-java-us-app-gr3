@@ -33,7 +33,6 @@ public class BookServiceJpa implements BookService{
     public Optional<Comment> addComment(Comment newComment) {
         try {
             return Optional.of(commentRepository.save(newComment));
-
         } catch (Exception e) {
             return Optional.empty();
         }

@@ -4,16 +4,20 @@ import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import pl.us.gr3.app.model.Book;
+import pl.us.gr3.app.model.User;
 import pl.us.gr3.app.repository.BookRepository;
+import pl.us.gr3.app.repository.UserRepository;
 
 import java.util.List;
 
 @SpringBootApplication
 public class Gr3AppApplication implements CommandLineRunner {
     private final BookRepository bookRepository;
+    private final UserRepository userRepository;
 
-    public Gr3AppApplication(BookRepository bookRepository) {
+    public Gr3AppApplication(BookRepository bookRepository, UserRepository userRepository) {
         this.bookRepository = bookRepository;
+        this.userRepository = userRepository;
     }
 
     public static void main(String[] args) {
@@ -42,5 +46,19 @@ public class Gr3AppApplication implements CommandLineRunner {
                                 .build()
                 )
         );
+        userRepository.saveAll(List.of(
+                User
+                        .builder()
+                        .id(1)
+                        .email("karol@us.edu.pl")
+                        .password("12345")
+                        .build(),
+                User
+                        .builder()
+                        .id(2)
+                        .email("ewa@us.edu.pl")
+                        .password("abcde")
+                        .build()
+        ));
     }
 }

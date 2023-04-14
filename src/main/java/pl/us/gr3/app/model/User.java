@@ -25,4 +25,8 @@ public class User {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @EqualsAndHashCode.Include
     private long id;
+
+    private String password;
+
+    private String email;
 }
