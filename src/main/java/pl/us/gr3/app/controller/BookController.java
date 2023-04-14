@@ -5,14 +5,17 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.github.fge.jsonpatch.JsonPatch;
 import com.github.fge.jsonpatch.JsonPatchException;
 import jakarta.validation.Valid;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.*;
 import pl.us.gr3.app.dto.RequestCommentDto;
 import pl.us.gr3.app.mapper.CommentMapper;
+import pl.us.gr3.app.model.Book;
 import pl.us.gr3.app.model.Comment;
 import pl.us.gr3.app.service.BookService;
+import pl.us.gr3.app.service.BookServiceJpa;
 
 import java.net.URI;
 import java.util.HashMap;
@@ -26,8 +29,13 @@ public class BookController {
     // wstrzyknij BookService
     private final BookService bookService;
 
-    public BookController(BookService bookService) {
+    public BookController(@Qualifier("BookServiceJpa") BookService bookService) {
         this.bookService = bookService;
+    }
+
+    @GetMapping("")
+    public List<Book> findAllBooks(){
+        return bookService.findAllBooks();
     }
 
     // zdefiniuj metodę pobierania komentarzy dla książki o podanym id

@@ -6,7 +6,7 @@ import pl.us.gr3.app.model.Comment;
 
 import java.util.*;
 
-@Service
+@Service("BookServiceInMemory")
 public class BookServiceInMemory implements BookService{
     private Map<Long, Book> books = new HashMap<>(Map.of(
             1L, Book

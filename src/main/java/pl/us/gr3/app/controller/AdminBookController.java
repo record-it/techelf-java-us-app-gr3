@@ -7,6 +7,7 @@ import pl.us.gr3.app.dto.RequestBookDto;
 import pl.us.gr3.app.mapper.BookMapper;
 import pl.us.gr3.app.model.Book;
 import pl.us.gr3.app.service.BookService;
+import pl.us.gr3.app.service.BookServiceJpa;
 
 import java.net.URI;
 import java.util.ArrayList;
@@ -20,7 +21,8 @@ public class AdminBookController {
 
     private  final BookService bookService;
     private static final Random random = new Random();
-    public List<Book> books = new ArrayList<>(List.of(
+    public List<Book> books = new ArrayList<>(
+            List.of(
             Book
                     .builder()
                     .id(1)
@@ -37,7 +39,7 @@ public class AdminBookController {
                     .build()
     ));
 
-    public AdminBookController(BookService bookService) {
+    public AdminBookController(BookServiceJpa bookService) {
         this.bookService = bookService;
     }
 
